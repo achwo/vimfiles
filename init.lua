@@ -310,6 +310,26 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.o.relativenumber = true
+vim.o.showtabline = 2 -- always show tabs
+vim.o.scrolloff = 5 -- keep 5 lines above/below cursor
+vim.o.inccommand = 'split' -- show live preview of :s
+vim.o.mouse = 'a' -- enable mouse support
+
+vim.opt.smartindent = true
+-- vim.opt.shiftwidth = 2
+-- vim.opt.tabstop = 2
+-- vim.opt.softtabstop = 2
+
+vim.o.colorcolumn = '80'
+-- vim.o.path = '.,**' -- sets the path to current file and all subfiles
+-- vim.opt.diffopt:append('linematch:60')
+-- vim.opt.shortmess:append({c = true }) -- don't show match count on autocomplete
+
+-- Redraw when vim gains focus. Sometimes vim is not drawn correctly, this
+-- should fix it.
+-- vim.api.nvim_command('au FocusGained * :redraw!')
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
