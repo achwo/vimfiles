@@ -383,8 +383,8 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']g', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float, { desc = 'Open floating [c]ode diagnostic messag[e]' })
 vim.keymap.set('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open [c]ode diagnostics in [q]uickfix list' })
 
@@ -811,8 +811,8 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'copilot' },
     { name = 'nvim_lsp' },
+    { name = 'copilot' },
     { name = 'luasnip' },
     { name = 'path' },
   },
@@ -827,6 +827,8 @@ vim.keymap.set('n', '<C-l>', ':wincmd l<cr>')
 -- nvim-tree
 vim.keymap.set("n", "<Leader>fd", ":NvimTreeToggle<cr>")
 vim.keymap.set("n", "<Leader>ff", ":NvimTreeFindFile<cr>")
+
+
 
 -- <leader>y to system clipboard
 -- vim.keymap.set("n", "<Leader>y", "\"+y")
