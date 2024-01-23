@@ -180,8 +180,8 @@ require('lazy').setup({
         end, { desc = 'git diff against last commit' })
 
         -- Toggles
-        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-        map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+        map('n', '<leader>gb', gs.toggle_current_line_blame, { desc = 'toggle [G]it [b]lame line' })
+        map('n', '<leader>gd', gs.toggle_deleted, { desc = 'toggle [g]it show [d]eleted' })
 
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
@@ -334,8 +334,8 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>ce', vim.diagnostic.open_float, { desc = 'Open floating [c]ode diagnostic messag[e]' })
+vim.keymap.set('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open [c]ode diagnostics in [q]uickfix list' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -489,15 +489,15 @@ vim.defer_fn(function()
           ['[]'] = '@class.outer',
         },
       },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
+      -- swap = {
+      --   enable = false,
+      --   swap_next = {
+      --     ['<leader>ca'] = '@parameter.inner',
+      --   },
+      --   swap_previous = {
+      --     ['<leader>cA'] = '@parameter.inner',
+      --   },
+      -- },
     },
   }
 end, 0)
@@ -550,13 +550,13 @@ end
 -- document existing key chains
 require('which-key').register {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+  ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>x'] = { name = 'Trouble', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
@@ -681,6 +681,21 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+-- Use ctrl + hjkl to switch window
+vim.keymap.set('n', '<C-h>', ':wincmd h<cr>')
+vim.keymap.set('n', '<C-j>', ':wincmd j<cr>')
+vim.keymap.set('n', '<C-k>', ':wincmd k<cr>')
+vim.keymap.set('n', '<C-l>', ':wincmd l<cr>')
+
+-- nvim-tree
+vim.keymap.set("n", "<Leader>fd", ":NvimTreeToggle<cr>")
+vim.keymap.set("n", "<Leader>ff", ":NvimTreeFindFile<cr>")
+
+-- <leader>y to system clipboard
+-- vim.keymap.set("n", "<Leader>y", "\"+y")
+-- vim.keymap.set("v", "<Leader>y", "\"+y")
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

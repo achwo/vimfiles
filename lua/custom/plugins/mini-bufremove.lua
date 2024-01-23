@@ -18,9 +18,9 @@ return {
           bd(0)
         end
       end,
-      desc = "Delete Buffer",
+      desc = "[B]uffer [d]elete",
     },
     -- stylua: ignore
-    { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
+    { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "[B]uffer [D]elete (force)" },
   },
 }
