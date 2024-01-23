@@ -189,14 +189,65 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   -- Theme inspired by Atom
+  --   'navarasu/onedark.nvim',
+  --   priority = 1000,
+  --   config = function()
+  --
+  --     require('onedark').setup {
+  --       style = 'warmer',
+  --   --     toggle_style_key = '<leader>t',
+  --   -- toggle_style_list = {'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'},
+  --
+  --     }
+  --     vim.cmd.colorscheme 'onedark'
+  --
+  --   end,
+  -- },
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     -- vim.cmd.colorscheme 'catppuccin'
+  --     vim.cmd.colorscheme 'catppuccin-mocha'
+  --     -- colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+  --
+  --   end
+  -- },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   name = "kanagawa",
+  --   priority = 1000,
+  --   config = function()
+  --     require('kanagawa').setup {
+  --       background = {               -- map the value of 'background' option to a theme
+  --         dark = "dragon",           -- try "dragon" !
+  --         light = "lotus"
+  --       }
+  --     }
+  --     vim.cmd.colorscheme 'kanagawa'
+  --
+  --   end
+  -- },
+  -- {
+  --   "EdenEast/nightfox.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'nightfox'
+  --
+  --   end
+  -- },
+
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
+      vim.cmd.colorscheme 'gruvbox'
+    end
   },
+
 
   {
     -- Set lualine as statusline
@@ -205,7 +256,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        -- theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
@@ -352,6 +403,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
+    highlight = { enable = true },
+    indent = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<C-space>",
+        node_incremental = "<C-space>",
+        scope_incremental = false,
+        node_decremental = "<bs>",
+      },
+    },
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -402,7 +464,7 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>b<space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing [b]uffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -417,16 +479,90 @@ local function telescope_live_grep_open_files()
     prompt_title = 'Live Grep in Open Files',
   }
 end
+
+local function telescope_find_note_files()
+  require('telescope.builtin').find_files({ search_dirs = { '~/notes' } })
+end
+
+local function telescope_live_grep_in_notes()
+  require('telescope.builtin').live_grep({search_dirs = {'~/notes'}})
+end
+
+local function telescope_live_grep_with_hidden_toggle(opts, no_ignore)
+  opts = opts or {}
+  no_ignore = vim.F.if_nil(no_ignore, false)
+  opts.attach_mappings = function(_, map)
+    map({ "n", "i" }, "<C-h>", function(prompt_bufnr) -- <C-h> to toggle modes
+      local prompt = require("telescope.actions.state").get_current_line()
+      require("telescope.actions").close(prompt_bufnr)
+      no_ignore = not no_ignore
+      telescope_live_grep_with_hidden_toggle({ default_text = prompt }, no_ignore)
+    end)
+    return true
+  end
+
+  if no_ignore then
+    opts.vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--unrestricted',
+      '--unrestricted' -- unrestricted twice, as it shows more that way
+    }
+    opts.prompt_title = "Live Grep <ALL>"
+    require("telescope.builtin").live_grep(opts)
+  else
+    opts.prompt_title = "Live Grep"
+    require("telescope.builtin").live_grep(opts)
+  end
+end
+
+-- allow for toggling hidden files in telescope via <C-h>
+local function telescope_find_files_with_hidden_toggle(opts, no_ignore)
+  opts = opts or {}
+  no_ignore = vim.F.if_nil(no_ignore, false)
+  opts.attach_mappings = function(_, map)
+    map({ "n", "i" }, "<C-h>", function(prompt_bufnr) -- <C-h> to toggle modes
+      local prompt = require("telescope.actions.state").get_current_line()
+      require("telescope.actions").close(prompt_bufnr)
+      no_ignore = not no_ignore
+      telescope_find_files_with_hidden_toggle({ default_text = prompt }, no_ignore)
+    end)
+    return true
+  end
+
+  if no_ignore then
+    opts.no_ignore = true
+    opts.no_ignore_parent = true
+    opts.hidden = true
+    opts.prompt_title = "Find Files <ALL>"
+    require("telescope.builtin").find_files(opts)
+  else
+    opts.prompt_title = "Find Files"
+    require("telescope.builtin").find_files(opts)
+  end
+end
+
+
 vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', telescope_find_files_with_hidden_toggle, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sg', telescope_live_grep_with_hidden_toggle, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+
+vim.keymap.set('n', '<leader>sn', telescope_find_note_files, { desc = '[S]earch [N]otes File' })
+vim.keymap.set('n', '<leader>sN', telescope_live_grep_in_notes, { desc = '[S]earch [G]rep [N]otes' })
+vim.keymap.set('n', '<leader>p', telescope_find_files_with_hidden_toggle, { desc = 'Search [P]roject files' })
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -519,7 +655,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
