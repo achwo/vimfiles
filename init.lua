@@ -693,6 +693,8 @@ require('which-key').register {
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
   ['<leader>x'] = { name = 'Trouble', _ = 'which_key_ignore' },
+  ['<leader>f'] = { name = '[F]ile explorer', _ = 'which_key_ignore' },
+  ['<leader>cs'] = { name = '[C]ode [S]urround', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
@@ -827,6 +829,9 @@ vim.keymap.set('n', '<C-l>', ':wincmd l<cr>')
 -- nvim-tree
 vim.keymap.set("n", "<Leader>fd", ":NvimTreeToggle<cr>")
 vim.keymap.set("n", "<Leader>ff", ":NvimTreeFindFile<cr>")
+
+-- <leader>p in visual mode to not override yank register
+vim.keymap.set("x", "<Leader>p", "\"_dP")
 
 
 
