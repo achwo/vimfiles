@@ -88,7 +88,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -113,7 +113,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -353,10 +353,10 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 vim.o.relativenumber = true
-vim.o.showtabline = 2 -- always show tabs
-vim.o.scrolloff = 5 -- keep 5 lines above/below cursor
+vim.o.showtabline = 2      -- always show tabs
+vim.o.scrolloff = 5        -- keep 5 lines above/below cursor
 vim.o.inccommand = 'split' -- show live preview of :s
-vim.o.mouse = 'a' -- enable mouse support
+vim.o.mouse = 'a'          -- enable mouse support
 
 vim.opt.smartindent = true
 vim.opt.shiftwidth = 2
@@ -485,7 +485,7 @@ local function telescope_find_note_files()
 end
 
 local function telescope_live_grep_in_notes()
-  require('telescope.builtin').live_grep({search_dirs = {'~/notes'}})
+  require('telescope.builtin').live_grep({ search_dirs = { '~/notes' } })
 end
 
 local function telescope_live_grep_with_hidden_toggle(opts, no_ignore)
@@ -764,7 +764,7 @@ mason_lspconfig.setup_handlers {
 }
 
 -- sourcekit is currently not supported by mason-lspconfig
-require'lspconfig'.sourcekit.setup{}
+require 'lspconfig'.sourcekit.setup {}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -776,7 +776,7 @@ luasnip.config.setup {}
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 end
 
 cmp.setup {
@@ -855,6 +855,17 @@ vim.keymap.set("n", "q:", "<Nop>")
 -- vim.keymap.set("n", "<Leader>y", "\"+y")
 -- vim.keymap.set("v", "<Leader>y", "\"+y")
 
+-- clear all buffers except current
+vim.keymap.set("n", "bD", function()
+    local bufs = vim.api.nvim_list_bufs()
+    local current_buf = vim.api.nvim_get_current_buf()
+    for _, i in ipairs(bufs) do
+      if i ~= current_buf then
+        vim.api.nvim_buf_delete(i, {})
+      end
+    end
+  end,
+  { desc = '[D]elete all [b]uffers except current' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
