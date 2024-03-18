@@ -359,8 +359,8 @@ vim.o.inccommand = 'split' -- show live preview of :s
 vim.o.mouse = 'a' -- enable mouse support
 
 vim.opt.smartindent = true
--- vim.opt.shiftwidth = 2
--- vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 -- vim.opt.softtabstop = 2
 
 vim.o.colorcolumn = '80'
@@ -561,6 +561,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 
 vim.keymap.set('n', '<leader>sn', telescope_find_note_files, { desc = '[S]earch [N]otes File' })
 vim.keymap.set('n', '<leader>sN', telescope_live_grep_in_notes, { desc = '[S]earch [G]rep [N]otes' })
+vim.keymap.set('n', '<leader>n', telescope_find_note_files, { desc = 'Search [N]otes File' })
 vim.keymap.set('n', '<leader>p', telescope_find_files_with_hidden_toggle, { desc = 'Search [P]roject files' })
 
 
@@ -667,7 +668,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -717,12 +718,15 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  bashls = {},
+  cssls = {},
+  cssmodules_ls = {},
+  dockerls = {},
+  gopls = {},
+  solargraph = {},
+  tailwindcss = {},
+  tsserver = {},
+  yamlls = {},
 
   lua_ls = {
     Lua = {
@@ -759,6 +763,9 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+-- sourcekit is currently not supported by mason-lspconfig
+require'lspconfig'.sourcekit.setup{}
+
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
@@ -791,6 +798,14 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
+    ["<C-J>"] = cmp.mapping(function(fallback)
+      cmp.mapping.abort()
+      if require("copilot.suggestion").is_visible() then
+        require("copilot.suggestion").accept()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() and has_words_before() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -814,7 +829,7 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'copilot' },
+    -- { name = 'copilot' },
     { name = 'luasnip' },
     { name = 'path' },
   },
@@ -833,7 +848,8 @@ vim.keymap.set("n", "<Leader>ff", ":NvimTreeFindFile<cr>")
 -- <leader>p in visual mode to not override yank register
 vim.keymap.set("x", "<Leader>p", "\"_dP")
 
-
+-- prevent q: from opening command history
+vim.keymap.set("n", "q:", "<Nop>")
 
 -- <leader>y to system clipboard
 -- vim.keymap.set("n", "<Leader>y", "\"+y")
