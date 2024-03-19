@@ -851,6 +851,8 @@ vim.keymap.set("x", "<Leader>p", "\"_dP")
 -- prevent q: from opening command history
 vim.keymap.set("n", "q:", "<Nop>")
 
+vim.keymap.set("n", "<Leader>gg", ":Neogit<cr>", { desc = "Open [G]it" })
+
 -- <leader>y to system clipboard
 -- vim.keymap.set("n", "<Leader>y", "\"+y")
 -- vim.keymap.set("v", "<Leader>y", "\"+y")
