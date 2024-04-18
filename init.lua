@@ -370,7 +370,13 @@ vim.o.colorcolumn = '80'
 
 -- Redraw when vim gains focus. Sometimes vim is not drawn correctly, this
 -- should fix it.
--- vim.api.nvim_command('au FocusGained * :redraw!')
+vim.api.nvim_command('au FocusGained * :redraw!')
+
+vim.opt.foldcolumn = '1'    -- show folds on the left side
+vim.opt.foldlevel = 99      -- prevent closing folds on buffer open
+vim.opt.foldlevelstart = 99 -- prevent closing folds on buffer open
+vim.opt.foldenable = true
+
 
 -- [[ Basic Keymaps ]]
 
