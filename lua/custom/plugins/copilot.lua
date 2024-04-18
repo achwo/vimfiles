@@ -7,7 +7,7 @@ return {
     opts = {
       suggestion = {
         enabled = true,
-        auto_trigger = true,
+        auto_trigger = false,
         keymap = {
           jump_prev = false,
           jump_next = false,
