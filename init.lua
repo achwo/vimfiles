@@ -830,14 +830,6 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ["<C-J>"] = cmp.mapping(function(fallback)
-      cmp.mapping.abort()
-      if require("copilot.suggestion").is_visible() then
-        require("copilot.suggestion").accept()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() and has_words_before() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -861,7 +853,6 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    -- { name = 'copilot' },
     { name = 'luasnip' },
     { name = 'path' },
   },
