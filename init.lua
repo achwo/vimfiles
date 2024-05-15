@@ -775,6 +775,24 @@ mason_lspconfig.setup_handlers {
       filetypes = (servers[server_name] or {}).filetypes,
     }
   end,
+  ["yamlls"] = function()
+    local server_name = "yamlls"
+
+    local caps = vim.lsp.protocol.make_client_capabilities()
+    caps = require('cmp_nvim_lsp').default_capabilities(caps)
+
+    caps.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true
+    }
+
+    require("lspconfig")[server_name].setup({
+      capabilities = caps,
+      on_attach = on_attach,
+      settings = servers[server_name],
+      filetypes = (servers[server_name] or {}).filetypes,
+    })
+  end
 }
 
 -- sourcekit is currently not supported by mason-lspconfig
