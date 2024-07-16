@@ -417,6 +417,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
+    -- path_display = { shorten = 3 },
+    path_display = { "smart" },
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
