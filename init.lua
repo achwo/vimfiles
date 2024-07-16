@@ -701,24 +701,20 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-  ['<leader>x'] = { name = 'Trouble', _ = 'which_key_ignore' },
-  ['<leader>f'] = { name = '[F]ile explorer', _ = 'which_key_ignore' },
-  ['<leader>cs'] = { name = '[C]ode [S]urround', _ = 'which_key_ignore' },
+require('which-key').add {
+  {'<leader>c', group = '[C]ode'},
+  {'<leader>b', group = '[B]uffer'},
+  {'<leader>g', group = '[G]it'},
+  {'<leader>h', group = 'Git [H]unk'},
+  {'<leader>r', group = '[R]ename'},
+  {'<leader>s', group = '[S]earch'},
+  {'<leader>w', group = '[W]orkspace'},
+  {'<leader>x', group = 'Trouble'},
+  {'<leader>f', group = '[F]ile explorer'},
+  {'<leader>cs', group = '[C]ode [S]urround'},
+  -- ['<leader>'] = { name = 'VISUAL <leader>', mode = 'v' },
+  {'<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' }},
 }
--- register which-key VISUAL mode
--- required for visual <leader>hs (hunk stage) to work
-require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
-  ['<leader>h'] = { 'Git [H]unk' },
-}, { mode = 'v' })
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
