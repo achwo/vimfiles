@@ -702,18 +702,18 @@ end
 
 -- document existing key chains
 require('which-key').add {
-  {'<leader>c', group = '[C]ode'},
-  {'<leader>b', group = '[B]uffer'},
-  {'<leader>g', group = '[G]it'},
-  {'<leader>h', group = 'Git [H]unk'},
-  {'<leader>r', group = '[R]ename'},
-  {'<leader>s', group = '[S]earch'},
-  {'<leader>w', group = '[W]orkspace'},
-  {'<leader>x', group = 'Trouble'},
-  {'<leader>f', group = '[F]ile explorer'},
-  {'<leader>cs', group = '[C]ode [S]urround'},
+  { '<leader>c',  group = '[C]ode' },
+  { '<leader>b',  group = '[B]uffer' },
+  { '<leader>g',  group = '[G]it' },
+  { '<leader>h',  group = 'Git [H]unk' },
+  { '<leader>r',  group = '[R]ename' },
+  { '<leader>s',  group = '[S]earch' },
+  { '<leader>w',  group = '[W]orkspace' },
+  { '<leader>x',  group = 'Trouble' },
+  { '<leader>f',  group = '[F]ile explorer' },
+  { '<leader>cs', group = '[C]ode [S]urround' },
   -- ['<leader>'] = { name = 'VISUAL <leader>', mode = 'v' },
-  {'<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' }},
+  { '<leader>h',  group = 'Git [H]unk',       mode = { 'n', 'v' } },
 }
 
 -- mason-lspconfig requires that these setup functions are called in this order
