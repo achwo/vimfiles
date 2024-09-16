@@ -857,10 +857,11 @@ cmp.setup {
 }
 
 -- Use ctrl + hjkl to switch window
-vim.keymap.set('n', '<C-h>', ':wincmd h<cr>')
-vim.keymap.set('n', '<C-j>', ':wincmd j<cr>')
-vim.keymap.set('n', '<C-k>', ':wincmd k<cr>')
-vim.keymap.set('n', '<C-l>', ':wincmd l<cr>')
+-- no longer in use because tmux
+-- vim.keymap.set('n', '<C-h>', ':wincmd h<cr>')
+-- vim.keymap.set('n', '<C-j>', ':wincmd j<cr>')
+-- vim.keymap.set('n', '<C-k>', ':wincmd k<cr>')
+-- vim.keymap.set('n', '<C-l>', ':wincmd l<cr>')
 
 -- nvim-tree
 vim.keymap.set("n", "<Leader>fd", ":NvimTreeToggle<cr>")
