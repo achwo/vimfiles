@@ -241,15 +241,6 @@ require('lazy').setup({
   -- },
 
   {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'gruvbox'
-    end
-  },
-
-
-  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
@@ -708,6 +699,7 @@ require('which-key').add {
   { '<leader>h',  group = 'Git [H]unk' },
   { '<leader>r',  group = '[R]ename' },
   { '<leader>s',  group = '[S]earch' },
+  { '<leader>t',  group = '[T]est' },
   { '<leader>w',  group = '[W]orkspace' },
   { '<leader>x',  group = 'Trouble' },
   { '<leader>f',  group = '[F]ile explorer' },
