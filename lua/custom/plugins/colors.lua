@@ -9,8 +9,23 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
+    -- config = function()
+    --   vim.cmd.colorscheme 'rose-pine'
+    -- end
+  },
+
+  {
+    'nordtheme/vim',
     config = function()
-      vim.cmd.colorscheme 'rose-pine'
+      vim.cmd.colorscheme 'nord'
     end
-  }
+  },
+
+  -- {
+  --   'altercation/vim-colors-solarized',
+  --   config = function()
+  --     vim.cmd.colorscheme 'solarized'
+  --     vim.o.background='dark'
+  --   end
+  -- }
 }
