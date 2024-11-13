@@ -736,7 +736,14 @@ local servers = {
   cssls = {},
   cssmodules_ls = {},
   dockerls = {},
-  gopls = {},
+  gopls = {
+    completeUnimported = true,
+    usePlaceholders = true,
+    analyses = {
+      unusedparams = true
+    }
+
+  },
   solargraph = {},
   tailwindcss = {},
   ts_ls = {},
