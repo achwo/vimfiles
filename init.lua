@@ -578,7 +578,7 @@ vim.keymap.set('n', '<leader>p', telescope_find_files_with_hidden_toggle, { desc
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'http', 'templ' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -748,6 +748,8 @@ local servers = {
   tailwindcss = {},
   ts_ls = {},
   yamlls = {},
+  html = {},
+  templ = {},
 
   lua_ls = {
     Lua = {
