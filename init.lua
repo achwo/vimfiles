@@ -744,7 +744,7 @@ local servers = {
     }
 
   },
-  solargraph = {},
+  ruby_lsp = {},
   tailwindcss = {},
   ts_ls = {},
   yamlls = {},
